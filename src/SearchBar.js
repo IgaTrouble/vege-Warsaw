@@ -36,7 +36,7 @@ class SearchBar extends Component {
 	
 	
 	
-
+	//function show list of places
     showList() {
         let listFilter = document.getElementsByTagName('aside');
         if(listFilter[0]) {
@@ -45,8 +45,17 @@ class SearchBar extends Component {
         
     }
 
+	//function close list of places
+	closeList() {
+        let listFilter = document.getElementsByTagName('aside');
+        listFilter[0].classList.remove('open')
+    }
+
+	
+	
     render() {
         const {handleQuery} = this.props;
+		const { locationsGoogle } = this.props;
         return (
             <nav className="searchBar">
                 <div className="navbar-header">
@@ -59,7 +68,7 @@ class SearchBar extends Component {
                                 id="search-input" 
                                 type="search"  
                                 placeholder="Filter" 
-                                onChange={(event) => handleQuery(event.target.value)}
+                                onChange={this.search}
                                 onFocus={() => this.showList()}
                                 />
                         </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Map from './Map';
 import SearchBar from './SearchBar';
+import PlacesList from './PlacesList';
 
 class App extends Component {
 	
@@ -53,7 +54,28 @@ class App extends Component {
 		this.initMap = this.initMap.bind(this);
         this.generateMarkers = this.generateMarkers.bind(this);
         this.openMarker = this.openMarker.bind(this);
+		this.handleQuery = this.handleQuery.bind(this);
     }
+	
+	 handleQuery = (event) => {
+        const query = event.target.value.toLowerCase();
+        const markers = this.props.virtualMarker;
+        const newMarkers = [];
+
+        markers.forEach(function (marker) {
+            if (marker.title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+                marker.setVisible(true);
+                newMarkers.push(marker);
+            } else {
+                marker.setVisible(false);
+            }
+        });
+
+        this.setState({markers: newMarkers});
+    }
+
+	
+	
 
 	 componentDidMount() {
         window.initMap = this.initMap;
