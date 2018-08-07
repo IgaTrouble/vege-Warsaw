@@ -60,86 +60,7 @@ class App extends Component {
         createMapLink('https://maps.googleapis.com/maps/api/js?key=AIzaSyDzR_AztRoEZxnlGC_GX_n0Yv8ReEgsA6A&callback=initMap');
     }
 	
-	var styles = [
-    {
-        featureType: "administrative",
-        elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#444444"
-            }
-        ]
-    },
-    {
-        featureType: "landscape",
-        elementType: "all",
-        stylers: [
-            {
-                color: "#fbeff0"
-            }
-        ]
-    },
-    {
-        featureType: "poi",
-        elementType: "all",
-        stylers: [
-            {
-                visibility: "off"
-            }
-        ]
-    },
-    {
-        featureType: "road",
-        elementType: "all",
-        stylers: [
-            {
-                saturation: -100
-            },
-            {
-                lightness: 45
-            }
-        ]
-    },
-    {
-        featureType: "road.highway",
-        elementType: "all",
-        stylers: [
-            {
-                visibility: "simplified"
-            }
-        ]
-    },
-    {
-        featureType: "road.arterial",
-        elementType: "labels.icon",
-        stylers: [
-            {
-                visibility: "off"
-            }
-        ]
-    },
-    {
-        featureType: "transit",
-        elementType: "all",
-        stylers: [
-            {
-                visibility: "off"
-            }
-        ]
-    },
-    {
-        featureType: "water",
-        elementType: "all",
-        stylers: [
-            {
-                color: "#f0dde3"
-            },
-            {
-                visibility: "on"
-            }
-        ]
-    }
-]
+	
 	
 	initMap() {
 		let map;
@@ -273,7 +194,86 @@ class App extends Component {
 		tag.parentNode.insertBefore(script, tag);
 }	
 
-
+var styles = [
+    {
+        featureType: "administrative",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#444444"
+            }
+        ]
+    },
+    {
+        featureType: "landscape",
+        elementType: "all",
+        stylers: [
+            {
+                color: "#fbeff0"
+            }
+        ]
+    },
+    {
+        featureType: "poi",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    },
+    {
+        featureType: "road",
+        elementType: "all",
+        stylers: [
+            {
+                saturation: -100
+            },
+            {
+                lightness: 45
+            }
+        ]
+    },
+    {
+        featureType: "road.highway",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "simplified"
+            }
+        ]
+    },
+    {
+        featureType: "road.arterial",
+        elementType: "labels.icon",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    },
+    {
+        featureType: "transit",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    },
+    {
+        featureType: "water",
+        elementType: "all",
+        stylers: [
+            {
+                color: "#f0dde3"
+            },
+            {
+                visibility: "on"
+            }
+        ]
+    }
+]
 
 
 
