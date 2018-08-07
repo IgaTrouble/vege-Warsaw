@@ -15,7 +15,13 @@ body {
 	position: static !important;
 }
 
+ul {
+list-style-type: none;
+}
 
+a {
+	text-decoration: none;
+}	
 
  header {
   text-align: center;
@@ -27,5 +33,61 @@ body {
     min-height: 50px;
     margin-bottom: 20px;
     display: block;
-    background-color: #ff6699;
+    background-color: #A3284F;
 }
+
+input {
+ padding: 10px;
+}
+
+.form-group {
+ margin-bottom: 10px; 
+}
+
+.offscreen {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+
+.close-list-box-btn {
+  cursor: pointer;
+  float: right;
+  color: #e45e5e;
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px 5px;
+}
+
+.list-box {
+  background: #ff6699;
+  color: #fff;
+  border: 1px solid #999;
+  border-radius: 3px;
+  top: 87px;
+  height: 120%;
+  padding: 15px 24px 30px 10px;
+  text-align: left;
+  width: 250px;
+  z-index: 10;
+  position: absolute;
+  -webkit-transform: translate(-300px, 0);
+  transform: translate(-300px, 0);
+  transition: transform 0.3s ease;
+}
+
+.list-box.open {
+  -webkit-transform: translate(0px, 0);
+  transform: translate(0px, 0);
+}
+
+
+@media screen and (max-width: 400px) {
+  header {
+    font-size: 2.5rem; } }

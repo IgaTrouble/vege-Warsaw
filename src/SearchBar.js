@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class SearchBar extends Component {
 	
-	    constructor() {
+	constructor() {
         super();
 
         this.state = {
@@ -16,7 +16,7 @@ class SearchBar extends Component {
         this.setState({markers: this.props.virtualMarker});
     }
 
-    search = (event) => {
+	  search = (event) => {
         const query = event.target.value.toLowerCase();
         const markers = this.props.virtualMarker;
         const newMarkers = [];
@@ -32,9 +32,8 @@ class SearchBar extends Component {
 
         this.setState({markers: newMarkers});
     }
-	
-	
-	
+  
+  
 	
 	//function show list of places
     showList() {
@@ -54,8 +53,6 @@ class SearchBar extends Component {
 	
 	
     render() {
-        const {handleQuery} = this.props;
-		const { locationsGoogle } = this.props;
         return (
             <nav className="searchBar">
                 <div className="navbar-header">
@@ -67,14 +64,32 @@ class SearchBar extends Component {
                                 className="form-control" 
                                 id="search-input" 
                                 type="search"  
-                                placeholder="Filter" 
+                                placeholder="Search" 
                                 onChange={this.search}
                                 onFocus={() => this.showList()}
                                 />
                         </div>
                     </div>
+					<aside className="list-box" >
+						<h4 className="offscreen">List of favorites vegan places in Warsaw</h4>
+						<button aria-label="Close button of the list"  id="close-btn" className="close-list-box-btn" onClick={() => this.closeList()}>
+							X
+						</button>
+						<div className="list-box-content">
+							   <ul tabIndex="0" role="tablist" aria-label="List of favorites vegan places in Warsaw" id="list-of-places">
+								{this.state.markers && this.state.markers.length && this.state.markers.map((marker, i) =>
+									<li key={i}>
+										<a href="#" onKeyPress={this.props.openInfo.bind(this, marker)}
+										   onClick={this.props.openInfo.bind(this, marker)}
+										tabIndex="0" role="button">{marker.title}</a>
+									</li>
+								)}
+							</ul>
+						</div>
+					</aside>
                 </div>
             </nav>
+			
         )
     }
 }

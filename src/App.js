@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Map from './Map';
 import SearchBar from './SearchBar';
-import PlacesList from './PlacesList';
+
 
 class App extends Component {
 	
@@ -20,8 +20,8 @@ class App extends Component {
                 },
                 {
 					location:{
-						lat: 52.245249,
-						lng: 20.992986},
+						lat: 52.245289,
+						lng: 20.992933},
                     name: 'Falafel Bejrut'
                 },
                 {
@@ -74,8 +74,6 @@ class App extends Component {
         this.setState({markers: newMarkers});
     }
 
-	
-	
 
 	 componentDidMount() {
         window.initMap = this.initMap;
@@ -127,13 +125,9 @@ class App extends Component {
 	}
 
     openMarker(marker = '') {
-        const clientId = "VVPEFJC40SJDVH1YFRJS4IBNQ0GGZJY5X1XLHEA23H1LTVOQ\n";
-        const clientSecret = "MEAM2N42L434P1MB1AJZFUHM5XAGMCDNGETUH5XNZIYEHOKI\n";
-        const url = "https://api.foursquare.com/v2/venues/search?client_id=" + clientId + "&client_secret=" + clientSecret + "&v=20130815&ll=" + marker.getPosition().lat() + "," + marker.getPosition().lng() + "&limit=1";
-
-
         if (this.state.info.marker != marker) {
             this.state.info.marker = marker;
+			this.state.info.setContent('<div>' + marker.title + '</div>');
             this.state.info.open(this.state.map, marker);
             marker.setAnimation(window.google.maps.Animation.DROP);
 
@@ -141,63 +135,21 @@ class App extends Component {
             this.state.info.addListener('closeClick', function () {
                 this.state.info.setMarker(null);
             });
-
-            this.markerInfo(url);
         }
     } 
 	
-	
 
-    markerInfo(url) {
-        let self = this.state.info;
-        let place;
-        fetch(url)
-            .then(function (resp) {
-                if (resp.status !== 200) {
-                    const err = "Can't load data.";
-                 this.state.info.setContent(err);
-                }
-                resp.json().then(function (data) {
-                    var place = data.response.venues[0];
-                    let phone = '';
-
-                    if (place.contact.formattedPhone) {
-                        phone = "<p><b>Phone:</b> "+ place.contact.formattedPhone +"</p>";
-                    }
-
-                    let twitter = '';
-
-                    if (place.contact.twitter) {
-                        twitter = "<p><b>Phone:</b> "+ place.contact.twitter +"</p>";
-                    }
-
-                    var info =
-                        "<div id='marker'>" +
-                            "<h2>" + self.marker.title + "</h2>" +
-                            phone +
-                            twitter +
-                            "<p><b>Address:</b> " + place.location.address + ", " + place.location.city + "</p>" +
-                        "</div>";
-                    self.setContent(info);
-                });
-
-                console.log(place);
-            })
-            .catch(function (err) {
-                const error = "Can't load data.";
-                self.setContent(error);
-            });
-
-    }	
-	
 
     render() {
         return (
             <div>
                 <header>
-						<SearchBar handleQuery={this.handleQuery} />
+						<SearchBar 
+						infoWindow={this.state.info}
+                        openInfo={this.openMarker}
+                        virtualMarker={this.state.virtualMarkers} />
                 </header>
-                <Map markers={this.state.markers}></Map>
+						<Map markers={this.state.markers}></Map>
             </div>
         );
     }
