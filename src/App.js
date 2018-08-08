@@ -54,7 +54,7 @@ class App extends Component {
 		this.initMap = this.initMap.bind(this);
         this.generateMarkers = this.generateMarkers.bind(this);
         this.openMarker = this.openMarker.bind(this);
-		this.handleQuery = this.handleQuery.bind(this);
+	
     }
 	
 	 handleQuery = (event) => {
