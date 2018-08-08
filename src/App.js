@@ -183,7 +183,7 @@ class App extends Component {
 	}
     render() {
         return (
-            <div>
+            <div role="main">
                 <header>
 						<SearchBar 
 						infoWindow={this.state.info}
