@@ -14,14 +14,14 @@ class App extends Component {
             info: '',
 			markers: [
                 {location: {
-					lat: 52.237392,
-					lng: 21.050441},
+					lat: 52.237228,
+					lng: 21.050329},
                     name: 'Vegan Ramen Shop'
                 },
                 {
 					location:{
-						lat: 52.245289,
-						lng: 20.992933},
+						lat: 52.245190,
+						lng: 20.993429},
                     name: 'Falafel Bejrut'
                 },
                 {
@@ -54,25 +54,8 @@ class App extends Component {
 		this.initMap = this.initMap.bind(this);
         this.generateMarkers = this.generateMarkers.bind(this);
         this.openMarker = this.openMarker.bind(this);
-	
     }
 	
-	 handleQuery = (event) => {
-        const query = event.target.value.toLowerCase();
-        const markers = this.props.virtualMarker;
-        const newMarkers = [];
-
-        markers.forEach(function (marker) {
-            if (marker.title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
-                marker.setVisible(true);
-                newMarkers.push(marker);
-            } else {
-                marker.setVisible(false);
-            }
-        });
-
-        this.setState({markers: newMarkers});
-    }
 
 
 	 componentDidMount() {
@@ -123,23 +106,81 @@ class App extends Component {
 	});
     
 	}
-
+	 //info from Foursquare API
     openMarker(marker = '') {
+		const clientId = "PWQYRTG2TEHWEYCHSSDWQLLDWQL0SFZ04NSKFHZWX4JW1AY1";
+		const clientSecret = "ZXY4TK2L0CUMFQ40NM0QWGILKIXAKLZNQW4WZO21K0TGO3MV";
+		const url = "https://api.foursquare.com/v2/venues/search?client_id=" + clientId + "&client_secret=" + clientSecret + "&v=20130815&ll=" + marker.getPosition().lat() + "," + marker.getPosition().lng() + "&limit=1";
         if (this.state.info.marker != marker) {
             this.state.info.marker = marker;
-			this.state.info.setContent('<div>' + marker.title + '</div>');
-            this.state.info.open(this.state.map, marker);
+		//	this.state.info.setContent('<div>' + marker.title + '</div>');
+			this.state.info.open(this.state.map, marker);
             marker.setAnimation(window.google.maps.Animation.DROP);
 
 
             this.state.info.addListener('closeClick', function () {
                 this.state.info.setMarker(null);
             });
+			this.addInfo(url);
         }
     } 
 	
+	addInfo(url) {
+		const clientId = "PWQYRTG2TEHWEYCHSSDWQLLDWQL0SFZ04NSKFHZWX4JW1AY1";
+		const clientSecret = "ZXY4TK2L0CUMFQ40NM0QWGILKIXAKLZNQW4WZO21K0TGO3MV";
+		let self = this.state.info;
+		let placeId;
+		let place;
+		let address;
+		let tipsList = null;
+		fetch(url)
+			.then(function (resp) {
+				if (resp.status !== 200) {
+                    const err = ("Can't load more data.");
+                 this.state.info.setContent(err);
+                }
+				resp.json().then(function (data) {
+                    placeId = data.response.venues[0].id;
+					place = data.response.venues[0];
+					address = 
+						"<h2>" + self.marker.title + "</h2>" + "<p><b>Address:</b> " + place.location.address + ", " + place.location.city + "</p>";
+					console.log(address);	
+				return fetch('https://api.foursquare.com/v2/venues/' + placeId +'/tips?v=20180518&limit=4&client_id=' + clientId + "&client_secret=" + clientSecret);
+				})
+				.then(response => response.json())
+				.then(dataTips => {
+					tipsList = dataTips;
+					return fetch("https://api.foursquare.com/v2/venues/" + placeId + "/photos?v=20180518&limit=2&client_id=" + clientId + "&client_secret=" + clientSecret);
+				})
+				.then(response => response.json())
+				.then(dataPhotos => addPhotos(tipsList, dataPhotos))
+				.catch(err => requestError(err, 'Foursquare'));
+			});
 
-
+	
+	 function addPhotos(tipsList, dataPhotos, addressP) {
+              let htmlResult = '';
+			  if(tipsList && tipsList.response.tips.items){
+				const tipsData = tipsList.response.tips.items;
+				const photosData = dataPhotos.response.photos.items;
+					htmlResult += address;
+					console.log(htmlResult);
+                  for(let i = 0; i < photosData.length; i++) {
+                    const photo = photosData[i];
+                    htmlResult += `<img alt="photo ${i + 1} by a visitor" style="width: 50%; margin-right: 5px;" src="${photo.prefix}150x150${photo.suffix}" />`;
+                  }
+			self.setContent(htmlResult);
+            }
+	}
+	
+	 function requestError(err, part) {
+              console.log(err);
+              self.setContent(`<p class="network-warning">Oh no! There was an error making a request for the ${part}.</p>`);
+            } 
+	
+	
+	
+	}
     render() {
         return (
             <div>
