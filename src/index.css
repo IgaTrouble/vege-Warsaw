@@ -6,13 +6,13 @@ body {
 
 h1 {
 	 color: white;
+	 width: 100%;
 	} 
 
 
  #map-container {
      bottom:30px !important;
      height: 100%;
-     left: 362px;
      right: 0px;
 	 display: inline !important;
 }	  
@@ -20,6 +20,9 @@ h1 {
  #map {
 	position: static !important;
 }
+ #places-search {
+        width: 84%;
+      }
 
 ul {
 list-style-type: none;
@@ -33,10 +36,9 @@ a {
  header {
   text-align: center;
   top: 0;
-    position: fixed;
-    right: 0;
-    left: 0;
+    position: absolute;
     z-index: 1030;
+	width: 100%;
     min-height: 50px;
     margin-bottom: 20px;
     display: block;
@@ -45,6 +47,10 @@ a {
 
 input {
  padding: 10px;
+}
+
+.navbar-header {
+ width: 100%;
 }
 
 .form-group {
@@ -96,5 +102,7 @@ input {
 
 
 @media screen and (max-width: 400px) {
-  header {
-    font-size: 2.5rem; } }
+ h1 header {
+    font-size: 1em;}
+
+	}

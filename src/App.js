@@ -137,13 +137,13 @@ class App extends Component {
 			.then(function (resp) {
 				if (resp.status !== 200) {
                     const err = ("Can't load more data.");
-                 this.state.info.setContent(err);
+                 self.setContent(err);
                 }
 				resp.json().then(function (data) {
                     placeId = data.response.venues[0].id;
 					place = data.response.venues[0];
 					address = 
-						"<h2>" + self.marker.title + "</h2>" + "<p><b>Address:</b> " + place.location.address + ", " + place.location.city + "</p>";
+						"<h2 tabindex=1>" + self.marker.title + "</h2>" + "<p tabindex=1><b>Address:</b> " + place.location.address + ", " + place.location.city + "</p>";
 					console.log(address);	
 				return fetch('https://api.foursquare.com/v2/venues/' + placeId +'/tips?v=20180518&limit=4&client_id=' + clientId + "&client_secret=" + clientSecret);
 				})
@@ -154,10 +154,9 @@ class App extends Component {
 				})
 				.then(response => response.json())
 				.then(dataPhotos => addPhotos(tipsList, dataPhotos))
-				.catch(err => requestError(err, 'Foursquare'));
+				.catch(err => requestError(err, 'Foursquare'))
 			});
-
-	
+			
 	 function addPhotos(tipsList, dataPhotos, addressP) {
               let htmlResult = '';
 			  if(tipsList && tipsList.response.tips.items){
@@ -175,7 +174,7 @@ class App extends Component {
 	
 	 function requestError(err, part) {
               console.log(err);
-              self.setContent(`<p class="network-warning">Oh no! There was an error making a request for the ${part}.</p>`);
+              self.setContent(`<p>Oh no! There was an error making a request for the ${part}.</p>`);
             } 
 	
 	
